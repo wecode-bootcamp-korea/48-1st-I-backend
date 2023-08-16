@@ -36,7 +36,7 @@ const signIn = async (email, password) => {
     throw err;
   }
 
-  return jwt.sign({ sub: user.id, email: user.email }, process.env.JWT_SECRET);
+  return jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET);
 };
 
 const getUserById = async(id) =>{
