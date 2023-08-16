@@ -39,4 +39,9 @@ const signIn = async (email, password) => {
   return jwt.sign({ sub: user.id, email: user.email }, process.env.JWT_SECRET);
 };
 
-module.exports = { signUp, signIn };
+const getUserById = async(id) =>{
+  const user  = await userDao.getUserById(id);
+  return user;
+}
+
+module.exports = { signUp, signIn , getUserById};
