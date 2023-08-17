@@ -1,23 +1,9 @@
-require("dotenv").config();
+require("dotenv").config(); // .env를 실행하겠다.
 
 const express = require("express");
 
 const cors = require("cors");
 const morgan = require("morgan");
-
-// const bcrypt = require("bcrypt");
-// const jwt = require("jsonwebtoken");
-
-// const { DataSource } = require("typeorm");
-
-// const AppDataSource = new DataSource({
-//   type: process.env.DB_CONNECTION,
-//   host: process.env.DB_HOST,
-//   port: process.env.DB_PORT,
-//   username: process.env.DB_USERNAME,
-//   password: process.env.DB_PASSWORD,
-//   database: process.env.DB_DATABASE,
-// });
 
 const { AppDataSource } = require("./src/models/data-source");
 const { routes } = require("./src/routes");

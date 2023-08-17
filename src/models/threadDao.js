@@ -1,6 +1,29 @@
 const { AppDataSource } = require("./data-source");
 
-const uploadThread = async (user_id, content) => {
+const getThread = async (req, res) => {
+  const thread = await AppDataSource.query(
+    `SELECT t.id,u.nickname, u.profile_image,t.content, t.created_at, t.updated_at
+        FROM threads t
+        JOIN users u
+        ON u.id = t.user_id
+        ORDER BY t.created_at DESC;`
+  );
+  return thread;
+};
+
+const getThreadDetail = async (id) => {
+  const detail = await AppDataSource.query(
+    `SELECT t.id, u.nickname, u.profile_image, t.content, t.created_at, t.updated_at 
+    FROM threads t
+    JOIN users u
+    ON u.id = t.user_id
+    WHERE t.id = ?;`,
+    [id]
+  );
+  return detail;
+};
+
+const uploadThread = async (userId, content) => {
   await AppDataSource.query(
     `
     INSERT INTO threads (
@@ -11,48 +34,51 @@ const uploadThread = async (user_id, content) => {
       ?
     )
     `,
-    [user_id, content]
+    [userId, content]
   );
 };
 
-// user_id가 필요한가
-const editThread = async (thread_id, user_id, content) => {
+const editThread = async (threadId, userId, content) => {
   await AppDataSource.query(
     `
     UPDATE threads 
     SET content = ? 
     WHERE user_id = ? AND id = ? 
     `,
-    [content, user_id, thread_id]
+    [content, userId, threadId]
   );
 };
 
-// user_id가 필요한가
-const deleteThread = async (thread_id, user_id) => {
+const deleteThread = async (threadId, userId) => {
   await AppDataSource.query(
     `
     DELETE FROM threads WHERE user_id = ? AND id = ?;
     `,
-    [user_id, thread_id]
+    [userId, threadId]
   );
-
-  // threads 테이블을 참조하는 thread_likes 테이블과 thread_comments 테이블의 데이터 삭제가 선행된 후 threads 테이블의 데이터를 삭제해야함
 };
 
-// const deleteThread = async (thread_id, user_id) => {
-//   await AppDataSource.query(
-//     `
-//     DELETE FROM thread_comments WHERE thread_id = ?
-//
-//     DELETE FROM thread_likes WHERE thread_id = ?;
-//     ` +
-//       `
-//     DELETE FROM threads WHERE user_id = ? AND id = ?;
-//     `,
-//     [thread_id, thread_id, user_id, thread_id]
-//   );
+const createLikeThread = async (userId, threadId) => {
+  await AppDataSource.query(
+    `INSERT INTO thread_likes (user_id,thread_id) VALUES (?,?);`,
+    [userId, threadId]
+  );
+};
 
-//   // threads 테이블을 참조하는 thread_likes 테이블과 thread_comments 테이블의 데이터 삭제가 선행된 후 threads 테이블의 데이터를 삭제해야함
-// };
+const deletelikeThread = async (userId, threadId) => {
+  await AppDataSource.query(
+    `DELETE FROM thread_likes WHERE user_id = ? and thread_id = ?;
+    `,
+    [userId, threadId]
+  );
+};
 
-module.exports = { uploadThread, editThread, deleteThread };
+module.exports = {
+  getThread,
+  getThreadDetail,
+  uploadThread,
+  editThread,
+  deleteThread,
+  createLikeThread,
+  deletelikeThread,
+};

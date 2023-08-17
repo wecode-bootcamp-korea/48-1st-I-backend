@@ -1,9 +1,8 @@
 const jwt = require("jsonwebtoken");
-const userService = require("../services/userService"); // 구조분해 할당 주의
+const userService = require("../services/userService");
 
 const loginRequired = async (req, res, next) => {
   try {
-    // 1) Getting token and check of it's there
     const accessToken = req.headers.authorization;
 
     if (!accessToken) {
@@ -13,10 +12,8 @@ const loginRequired = async (req, res, next) => {
       return res.status(error.statusCode).json({ message: error.message });
     }
 
-    // 2) Verification token
     const payload = await jwt.verify(accessToken, process.env.JWT_SECRET);
 
-    // 3) Check if user still exists
     const user = await userService.getUserById(payload.id);
 
     if (!user) {
@@ -26,7 +23,6 @@ const loginRequired = async (req, res, next) => {
       return res.status(error.statusCode).json({ message: error.message });
     }
 
-    // 4) GRANT ACCESS
     req.user = user;
     next();
   } catch {
