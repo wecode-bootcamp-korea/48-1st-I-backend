@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 const userDao = require("../models/userDao");
-const { validateEmail } = require("../utils/validators");
+const { validateEmail } = require("../utils/validators"); 
 
 const signUp = async (email, password) => {
   validateEmail(email);
@@ -16,7 +16,7 @@ const signUp = async (email, password) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  await userDao.createUser(email, hashedPassword);
+  await userDao.createUser(email, hashedPassword); 
 };
 
 const signIn = async (email, password) => {
