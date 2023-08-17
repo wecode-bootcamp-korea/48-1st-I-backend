@@ -2,10 +2,18 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 const userDao = require("../models/userDao");
-const { validateEmail } = require("../utils/validators"); 
+const { validateEmail, validatePhoneNumber } = require("../utils/validators");
 
-const signUp = async (email, password) => {
+const signUp = async (
+  email,
+  password,
+  nickname,
+  phone_number,
+  birth_day,
+  profile_image
+) => {
   validateEmail(email);
+  if (phone_number) validatePhoneNumber(phone_number);
   const user = await userDao.getUserByEmail(email);
 
   if (user) {
@@ -16,7 +24,14 @@ const signUp = async (email, password) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  await userDao.createUser(email, hashedPassword); 
+  await userDao.createUser(
+    email,
+    hashedPassword,
+    nickname,
+    phone_number,
+    birth_day,
+    profile_image
+  );
 };
 
 const signIn = async (email, password) => {
@@ -39,9 +54,9 @@ const signIn = async (email, password) => {
   return jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET);
 };
 
-const getUserById = async(id) =>{
-  const user  = await userDao.getUserById(id);
+const getUserById = async (id) => {
+  const user = await userDao.getUserById(id);
   return user;
-}
+};
 
-module.exports = { signUp, signIn , getUserById};
+module.exports = { signUp, signIn, getUserById };

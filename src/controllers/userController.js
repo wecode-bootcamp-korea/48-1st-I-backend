@@ -2,8 +2,22 @@ const userService = require("../services/userService");
 
 const signUp = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    await userService.signUp(email, password);
+    const {
+      email,
+      password,
+      nickname,
+      phone_number,
+      birth_day,
+      profile_image,
+    } = req.body;
+    await userService.signUp(
+      email,
+      password,
+      nickname,
+      phone_number,
+      birth_day,
+      profile_image
+    );
 
     res.status(201).end();
   } catch (err) {
