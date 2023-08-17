@@ -4,7 +4,7 @@ const auth = require("../utils/auth");
 
 threadRouter = express.Router();
 
-threadRouter.get("/list", threadController.thread);
+threadRouter.get("/list", threadController.getThread);
 threadRouter.get("/:id", threadController.threadDetail);
 threadRouter.post("/like/:id", auth.loginRequired, threadController.threadLike);
 threadRouter.delete(

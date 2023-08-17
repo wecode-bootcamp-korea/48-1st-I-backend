@@ -1,6 +1,6 @@
 const threadDao = require("../models/threadDao");
 
-const thread = async (req, res) => {
+const getThread = async (req, res) => {
   try {
     const threadList = await threadDao.listThread();
     res.status(201).json({ data: threadList });
@@ -43,4 +43,4 @@ const threadUnlike = async (req, res) => {
   }
 };
 
-module.exports = { thread, threadDetail, threadLike, threadUnlike };
+module.exports = { getThread, threadDetail, threadLike, threadUnlike };
