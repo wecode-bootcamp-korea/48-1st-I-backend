@@ -9,7 +9,7 @@ const getThread = async (req, res) => {
   }
 };
 
-const threadDetail = async (req, res) => {
+const getThreadDetail = async (req, res) => {
   try {
     const id = req.params.id;
     const detail = await threadDao.detailThread(id);
@@ -19,7 +19,7 @@ const threadDetail = async (req, res) => {
   }
 };
 
-const threadLike = async (req, res) => {
+const createLikeThread = async (req, res) => {
   try {
     const userId = req.user.id;
     const threadId = req.params.id;
@@ -31,7 +31,7 @@ const threadLike = async (req, res) => {
   }
 };
 
-const threadUnlike = async (req, res) => {
+const deletelikeThread = async (req, res) => {
   try {
     const userId = req.user.id;
     const threadId = req.params.id;
@@ -43,4 +43,9 @@ const threadUnlike = async (req, res) => {
   }
 };
 
-module.exports = { getThread, threadDetail, threadLike, threadUnlike };
+module.exports = {
+  getThread,
+  getThreadDetail,
+  createLikeThread,
+  deletelikeThread,
+};
