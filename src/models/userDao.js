@@ -18,7 +18,7 @@ const createUser = async (email, password) => {
 const getUserByEmail = async (email) => {
   const [user] = await AppDataSource.query(
     `
-      SELECT *
+      SELECT u.id, u.nickname, u.email, u.password, u.phone_number, u.birth_day, u.profile_image, u.created_at, u.updated_at
       FROM users u
       WHERE u.email = ?
     `,
@@ -27,5 +27,17 @@ const getUserByEmail = async (email) => {
 
   return user;
 };
+const getUserById = async (id) => {
+  const [user] = await AppDataSource.query(
+    `
+      SELECT u.id, u.nickname, u.email, u.password, u.phone_number, u.birth_day, u.profile_image, u.created_at, u.updated_at
+      FROM users u
+      WHERE u.id = ?
+    `,
+    [id]
+  );
 
-module.exports = { createUser, getUserByEmail };
+  return user;
+};
+
+module.exports = { createUser, getUserByEmail, getUserById };
