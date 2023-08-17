@@ -3,16 +3,11 @@ const { AppDataSource } = require("./data-source");
 const createUser = async (
   email,
   password,
-  nickname,
+  nickname = "Name",
   phone_number,
   birth_day,
-  profile_image
+  profile_image = process.env.DEFAULT_PROFILE_IMAGE
 ) => {
-  if (nickname === undefined) nickname = "Name";
-  if (profile_image === undefined)
-    profile_image =
-      "https://png.pngtree.com/png-clipart/20210129/ourmid/pngtree-default-male-avatar-png-image_2811083.jpg";
-
   await AppDataSource.query(
     `
     INSERT INTO users (
