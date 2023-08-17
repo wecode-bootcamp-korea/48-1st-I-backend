@@ -2,11 +2,11 @@ const { AppDataSource } = require("./data-source");
 
 const getThread = async (req, res) => {
   const thread = await AppDataSource.query(
-    `select t.id,u.nickname, u.profile_image,t.content, t.created_at, t.updated_at
-        from threads t
-        join users u
-        on u.id = t.user_id
-        order by t.created_at desc;`
+    `SELECT t.id,u.nickname, u.profile_image,t.content, t.created_at, t.updated_at
+        FROM threads t
+        JOIN users u
+        ON u.id = t.user_id
+        ORDER BY t.created_at DESC;`
   );
   return thread;
 };
@@ -21,6 +21,41 @@ const getThreadDetail = async (id) => {
     [id]
   );
   return detail;
+};
+
+const uploadThread = async (userId, content) => {
+  await AppDataSource.query(
+    `
+    INSERT INTO threads (
+      user_id,
+      content
+    ) VALUES (
+      ?,
+      ?
+    )
+    `,
+    [userId, content]
+  );
+};
+
+const editThread = async (threadId, userId, content) => {
+  await AppDataSource.query(
+    `
+    UPDATE threads 
+    SET content = ? 
+    WHERE user_id = ? AND id = ? 
+    `,
+    [content, userId, threadId]
+  );
+};
+
+const deleteThread = async (threadId, userId) => {
+  await AppDataSource.query(
+    `
+    DELETE FROM threads WHERE user_id = ? AND id = ?;
+    `,
+    [userId, threadId]
+  );
 };
 
 const createLikeThread = async (userId, threadId) => {
@@ -41,6 +76,9 @@ const deletelikeThread = async (userId, threadId) => {
 module.exports = {
   getThread,
   getThreadDetail,
+  uploadThread,
+  editThread,
+  deleteThread,
   createLikeThread,
   deletelikeThread,
 };
