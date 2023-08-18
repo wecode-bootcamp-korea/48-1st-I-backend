@@ -1,6 +1,6 @@
 const express = require("express");
 
-const userController = require("../controllers/userController");
+const threadCommentController = require("../controllers/threadCommentController");
 const threadCommentRouter = express.Router();
 
 threadCommentRouter.post("/:thread_id/comments/create", userController.signUp);
