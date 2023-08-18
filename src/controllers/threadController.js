@@ -2,7 +2,7 @@ const threadDao = require("../models/threadDao");
 
 const getThread = async (req, res) => {
   try {
-    const threadList = await threadDao.getThread;
+    const threadList = await threadDao.getThread();
     res.status(201).json({ data: threadList });
   } catch (err) {
     res.status(err.statusCode || 400).json({ message: err.message });

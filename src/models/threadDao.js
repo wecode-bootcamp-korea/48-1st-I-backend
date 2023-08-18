@@ -2,11 +2,11 @@ const { AppDataSource } = require("./data-source");
 
 const getThread = async (req, res) => {
   const thread = await AppDataSource.query(
-    `select t.id,u.nickname, u.profile_image,t.content, t.created_at, t.updated_at
-        from threads t
-        join users u
-        on u.id = t.user_id
-        order by t.created_at desc;`
+    `SELECT t.id, u.nickname, u.profile_image, t.content,t.created_at,t.updated_at
+    FROM threads t
+    JOIN users u
+    ON u.id = t.user_id
+    ORDER BY t.created_at DESC;`
   );
   return thread;
 };
