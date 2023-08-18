@@ -1,3 +1,4 @@
+const threadService = require("../services/threadService");
 const threadDao = require("../models/threadDao");
 
 const getThread = async (req, res) => {
@@ -16,6 +17,47 @@ const getThreadDetail = async (req, res) => {
     res.status(201).json({ data: detail });
   } catch (err) {
     res.status(err.status || 400).json({ message: err.message });
+  }
+};
+
+const uploadThread = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { content } = req.body;
+
+    await threadService.uploadThread(userId, content);
+
+    res.status(201).json({ message: "upload complete" });
+  } catch (err) {
+    res.status(err.statusCode || 400).json({ message: err.message });
+  }
+};
+
+const editThread = async (req, res) => {
+  try {
+    const threadId = req.params.id;
+    const userId = req.user.id;
+    const { content } = req.body;
+
+    await threadService.editThread(threadId, userId, content);
+
+    res.status(201).json({ message: "edit complete" });
+  } catch (err) {
+    res.status(err.statusCode || 400).json({ message: err.message });
+  }
+};
+
+const deleteThread = async (req, res) => {
+  try {
+    const threadId = req.params.id;
+    const userId = req.user.id;
+    const { content } = req.body;
+
+    await threadService.deleteThread(threadId, userId, content);
+
+    res.status(201).json({ message: "delete complete" });
+  } catch (err) {
+    res.status(err.statusCode || 400).json({ message: err.message });
   }
 };
 
@@ -46,6 +88,9 @@ const deletelikeThread = async (req, res) => {
 module.exports = {
   getThread,
   getThreadDetail,
+  uploadThread,
+  editThread,
+  deleteThread,
   createLikeThread,
   deletelikeThread,
 };
