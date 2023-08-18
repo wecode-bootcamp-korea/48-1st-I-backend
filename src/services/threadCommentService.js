@@ -1,10 +1,9 @@
 const threadCommentDao = require("../models/threadCommentDao");
 const userDao = require("../models/userDao");
-// const threadDao = require("../models/threadDao");
+const threadDao = require("../models/threadDao");
 
 const createComment = async (thread_id, user_id, content) => {
-  //   const thread = await threadDao.getThreadDetail(thread_id);
-  const thread = await threadCommentDao.getThreadById(thread_id);
+  const thread = await threadDao.getThreadDetail(thread_id);
 
   if (!thread) {
     const err = new Error("No such thread exists");
