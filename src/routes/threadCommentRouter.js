@@ -3,10 +3,17 @@ const express = require("express");
 const threadCommentController = require("../controllers/threadCommentController");
 const threadCommentRouter = express.Router();
 
-threadCommentRouter.post("/:thread_id/comments/create", userController.signUp);
+const { loginRequired } = require("../utils/auth");
+
+threadCommentRouter.post(
+  "/:thread_id/comments/create",
+  loginRequired,
+  threadCommentController.createComment
+);
 threadCommentRouter.delete(
   "/:thread_id/comments/delete",
-  userController.signIn
+  loginRequired,
+  threadCommentController.deleteComment
 );
 
 module.exports = { threadCommentRouter };
