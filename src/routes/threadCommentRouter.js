@@ -6,7 +6,7 @@ const threadCommentRouter = express.Router();
 const { loginRequired } = require("../utils/auth");
 
 threadCommentRouter.post(
-  "/:thread_id/comments/create",
+  "/:thread_id/comments",
   loginRequired,
   threadCommentController.createComment
 );
