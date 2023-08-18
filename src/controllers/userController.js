@@ -19,7 +19,7 @@ const signUp = async (req, res) => {
       profile_image
     );
 
-    res.status(201).end();
+    res.status(201).json({ message: "successfully created user" });
   } catch (err) {
     res.status(err.statusCode || 400).json({ message: err.message });
   }
