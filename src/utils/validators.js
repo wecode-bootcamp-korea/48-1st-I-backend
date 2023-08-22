@@ -9,5 +9,13 @@ const validateEmail = (email) => {
     throw err;
   }
 };
+const validatePhoneNumber = (phone_number) => {
+  const re = new RegExp(/^010-\d{4}-\d{4}$/);
+  if (!re.test(phone_number)) {
+    const err = new Error("invalid phone number");
+    err.statusCode = 400;
+    throw err;
+  }
+};
 
-module.exports = { validateEmail };
+module.exports = { validateEmail, validatePhoneNumber };
