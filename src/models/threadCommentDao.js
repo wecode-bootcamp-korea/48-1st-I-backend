@@ -1,6 +1,6 @@
 const { AppDataSource } = require("./data-source");
 
-const createComment = async (thread_id, user_id, content) => {
+const createComment = async (threadId, userId, content) => {
   await AppDataSource.query(
     `
         INSERT INTO thread_comments (
@@ -13,7 +13,7 @@ const createComment = async (thread_id, user_id, content) => {
           ?
         )
         `,
-    [thread_id, user_id, content]
+    [threadId, userId, content]
   );
 };
 module.exports = { createComment };

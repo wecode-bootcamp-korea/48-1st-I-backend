@@ -10,10 +10,5 @@ threadCommentRouter.post(
   loginRequired,
   threadCommentController.createComment
 );
-// threadCommentRouter.delete(
-//   "/:thread_id/comments/delete",
-//   loginRequired,
-//   threadCommentController.deleteComment
-// );
 
 module.exports = { threadCommentRouter };

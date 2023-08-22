@@ -2,8 +2,8 @@ const threadCommentDao = require("../models/threadCommentDao");
 const userDao = require("../models/userDao");
 const threadDao = require("../models/threadDao");
 
-const createComment = async (thread_id, user_id, content) => {
-  const thread = await threadDao.getThreadDetail(thread_id);
+const createComment = async (threadId, userId, content) => {
+  const thread = await threadDao.getThreadDetail(threadId);
 
   if (!thread) {
     const err = new Error("No such thread exists");
@@ -12,11 +12,11 @@ const createComment = async (thread_id, user_id, content) => {
   }
   if (!content) {
     const err = new Error("Empty content");
-    err.statusCode = 422;
+    err.statusCode = 400;
     throw err;
   }
 
-  const user = await userDao.getUserById(user_id);
+  const user = await userDao.getUserById(userId);
 
   if (!user) {
     const err = new Error("specified user does not exist");
@@ -24,6 +24,6 @@ const createComment = async (thread_id, user_id, content) => {
     throw err;
   }
 
-  await threadCommentDao.createComment(thread_id, user_id, content);
+  await threadCommentDao.createComment(threadId, userId, content);
 };
 module.exports = { createComment };
