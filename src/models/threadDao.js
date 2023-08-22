@@ -2,18 +2,21 @@ const { AppDataSource } = require("./data-source");
 
 const getThread = async (req, res) => {
   const thread = await AppDataSource.query(
-    `SELECT t.id,u.nickname, u.profile_image,t.content, t.created_at, t.updated_at
-        FROM threads t
-        JOIN users u
-        ON u.id = t.user_id
-        ORDER BY t.created_at DESC;`
+    `SELECT t.id, u.nickname, u.profile_image AS 'profileImage', t.content,t.created_at AS 'createdAt',t.updated_at AS 'updadtedAt',COUNT(tl.user_id) As 'likeCount'
+    FROM threads t
+    JOIN users u
+    ON u.id = t.user_id
+    LEFT JOIN thread_likes tl
+    ON tl.thread_id = t.id
+    GROUP BY t.id
+    ORDER BY t.created_at DESC;`
   );
   return thread;
 };
 
 const getThreadDetail = async (id) => {
   const detail = await AppDataSource.query(
-    `SELECT t.id, u.nickname, u.profile_image, t.content, t.created_at, t.updated_at 
+    `SELECT t.id, u.nickname, u.profile_image AS 'profileImage', t.content, t.created_at AS 'createdAt', t.updated_at AS 'updatedAt'
     FROM threads t
     JOIN users u
     ON u.id = t.user_id
