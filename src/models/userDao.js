@@ -4,9 +4,9 @@ const createUser = async (
   email,
   password,
   nickname = "Name",
-  phone_number,
-  birth_day,
-  profile_image = process.env.DEFAULT_PROFILE_IMAGE
+  phoneNumber,
+  birthDay,
+  profileImage = process.env.DEFAULT_PROFILE_IMAGE
 ) => {
   await AppDataSource.query(
     `
@@ -21,7 +21,7 @@ const createUser = async (
       ?,?,?,?,?,?
     )
     `,
-    [email, password, nickname, phone_number, birth_day, profile_image]
+    [email, password, nickname, phoneNumber, birthDay, profileImage]
   );
 };
 
